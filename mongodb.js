@@ -55,6 +55,16 @@ const updateTasks = (db) => {
     })
 }
 
+const deleteUsers = (db) => {
+    db.collection('users').deleteMany({
+        age: 36
+    }).then(result => {
+        console.log(result.deletedCount)
+    }).catch(error => {
+        console.log(error)
+    })
+}
+
 MongoClient.connect(connectionURL, { useNewUrlParser: true }, (error, client) => {
     if (error) {
         console.log("Unable to connect to database!")
@@ -64,4 +74,5 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true }, (error, client) =>
     // getUsers(db)
     updateUsers(db);
     updateTasks(db);
+    deleteUsers(db);
 })
