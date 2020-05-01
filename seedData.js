@@ -1,4 +1,4 @@
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectID } = require('mongodb');
 
 const connectionURL = 'mongodb://127.0.0.1:27017'
 const databaseName = 'task-manager'
@@ -23,6 +23,7 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true }, (error, client) =>
 
     db.collection('users').insertMany([
         {
+            _id: new ObjectID("5eabde86c974833f54f8a522"),
             name: "Jo",
             age: 34
         },
