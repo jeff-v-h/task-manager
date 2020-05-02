@@ -1,7 +1,8 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
+const bcrypt = require('bcrypt')
 
-const User = mongoose.model('User', {
+const userSchema = new mongoose.Schema( {
     name: {
         type: String,
         required: true,
@@ -39,5 +40,20 @@ const User = mongoose.model('User', {
         }
     }
 })
+
+// Add middleware
+// Needs to be normal function for the this reference
+userSchema.pre('save', async function(next) {
+    const user = this;
+
+    if (user.isModified('password')) {
+        // second argument is number of rounds to hash
+        user.password = await bcrypt.hash(user.password, 8)
+    }
+
+    next()
+})
+
+const User = mongoose.model('User', userSchema)
 
 module.exports = User
