@@ -51,7 +51,7 @@ const userSchema = new mongoose.Schema({
 
 //#region Middleware
 // methods on instance and individul user
-userSchema.methods.getPublicProfile = function() {
+userSchema.methods.toJSON = function() {
     const user = this;
     const userObject = user.toObject()
 
