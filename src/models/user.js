@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -42,8 +43,13 @@ const userSchema = new mongoose.Schema({
     }
 })
 
-// Add middleware
-// Needs to be normal function for the this reference
+//#region Middleware
+userSchema.methods.generateAuthToken = async function() {
+    const user = this
+    const token = jwt.sign({ _id: user._id.toString() }, 'thisisataskmanager')
+    return token
+}
+
 userSchema.statics.findByCredentials = async (email, password) => {
     const loginErrorMsg = 'Unable to login';
     const user = await User.findOne({ email })
@@ -62,6 +68,7 @@ userSchema.statics.findByCredentials = async (email, password) => {
 }
 
 // Hash the plain text password before saving
+// Needs to be normal function for the this reference
 userSchema.pre('save', async function(next) {
     const user = this;
 
@@ -72,6 +79,7 @@ userSchema.pre('save', async function(next) {
 
     next()
 })
+//#endregion
 
 const User = mongoose.model('User', userSchema)
 
