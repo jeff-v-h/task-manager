@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcrypt')
 
-const userSchema = new mongoose.Schema( {
+const userSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -10,6 +10,7 @@ const userSchema = new mongoose.Schema( {
     },
     email: {
         type: String,
+        unique: true,
         required: true,
         trim: true,
         lowercase: true,
@@ -43,6 +44,24 @@ const userSchema = new mongoose.Schema( {
 
 // Add middleware
 // Needs to be normal function for the this reference
+userSchema.statics.findByCredentials = async (email, password) => {
+    const loginErrorMsg = 'Unable to login';
+    const user = await User.findOne({ email })
+
+    if (!user) {
+        throw new Error(loginErrorMsg)
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password)
+
+    if (!isMatch) {
+        throw new Error(loginErrorMsg)
+    }
+
+    return user;
+}
+
+// Hash the plain text password before saving
 userSchema.pre('save', async function(next) {
     const user = this;
 
