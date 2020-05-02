@@ -49,6 +49,13 @@ const userSchema = new mongoose.Schema({
     }]
 })
 
+// setup virtual property to reference tasks for user
+userSchema.virtual('tasks', {
+    ref: 'Task',
+    localField: '_id',
+    foreignField: 'owner'
+})
+
 //#region Middleware
 // methods on instance and individul user
 userSchema.methods.toJSON = function() {
