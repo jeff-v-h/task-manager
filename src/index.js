@@ -24,7 +24,7 @@ app.get('/users', async (req, res) => {
         const users = await User.find({});
         res.send(users)
     } catch (e) {
-        res.status(500).send()
+        res.status(500).send({ error: e.message })
     }
 })
 
@@ -34,11 +34,32 @@ app.get('/users/:id', async (req, res) => {
     try {
         const user = await User.findById(_id);
         if (!user) {
-            return res.status(404).send();
+            return res.status(404).send({ error: "User not found" });
         }
         res.send(user);
     } catch (e) {
-        res.status(500).send();
+        res.status(500).send({ error: e.message });
+    }
+})
+
+app.patch('/users/:id', async (req, res) => {
+    const updates = Object.keys(req.body)
+    const allowedUpdates = ['name', 'email', 'password', 'age']
+    const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
+
+    if (!isValidOperation) {
+        return res.status(404).send({ error: "At least one property in object is invalid for updating!" });
+    }
+
+    try {
+        // new: true ensures updated object is returned
+        const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+        if (!user) {
+            return res.status(404).send({ error: "User not found" });
+        }
+        res.send(user);
+    } catch (e) {
+        res.status(500).send({ error: e.message });
     }
 })
 
@@ -68,11 +89,32 @@ app.get('/tasks/:id', async (req, res) => {
     try {
         const task = await Task.findById(_id)
         if (!task) {
-            return res.status(404).send()
+            return res.status(404).send({ error: "Task not found" })
         }
         res.send(task)
     } catch (e) {
         res.status(500).send()
+    }
+})
+
+app.patch('/tasks/:id', async (req, res) => {
+    const updates = Object.keys(req.body)
+    const allowedUpdates = ['description', 'completed']
+    const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
+
+    if (!isValidOperation) {
+        return res.status(404).send({ error: "At least one property in object is invalid for updating!" });
+    }
+
+    try {
+        // new: true ensures updated object is returned
+        const task = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+        if (!task) {
+            return res.status(404).send({ error: "Task not found" });
+        }
+        res.send(task);
+    } catch (e) {
+        res.status(500).send({ error: e.message });
     }
 })
 
