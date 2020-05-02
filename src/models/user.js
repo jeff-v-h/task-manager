@@ -40,13 +40,24 @@ const userSchema = new mongoose.Schema({
                 throw new Error('Age must be a positive number')
             }
         }
-    }
+    },
+    tokens: [{
+        token: {
+            type: String,
+            required: true
+        }
+    }]
 })
 
 //#region Middleware
 userSchema.methods.generateAuthToken = async function() {
     const user = this
     const token = jwt.sign({ _id: user._id.toString() }, 'thisisataskmanager')
+
+    // add token to user
+    user.tokens = user.tokens.concat({ token })
+    await user.save()
+
     return token
 }
 
