@@ -50,6 +50,17 @@ const userSchema = new mongoose.Schema({
 })
 
 //#region Middleware
+// methods on instance and individul user
+userSchema.methods.getPublicProfile = function() {
+    const user = this;
+    const userObject = user.toObject()
+
+    delete userObject.password
+    delete userObject.tokens
+
+    return userObject
+}
+
 userSchema.methods.generateAuthToken = async function() {
     const user = this
     const token = jwt.sign({ _id: user._id.toString() }, 'thisisataskmanager')
@@ -61,6 +72,7 @@ userSchema.methods.generateAuthToken = async function() {
     return token
 }
 
+// methods on the User model
 userSchema.statics.findByCredentials = async (email, password) => {
     const loginErrorMsg = 'Unable to login';
     const user = await User.findOne({ email })
