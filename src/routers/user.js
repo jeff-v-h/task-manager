@@ -3,6 +3,7 @@ const router = new express.Router()
 const User = require('../models/user')
 const auth = require('../middleware/auth')
 const multer = require('multer')
+const sharp = require('sharp')
 
 router.post('/users', async (req, res) => {
     const user = new User(req.body)
@@ -92,6 +93,7 @@ router.delete('/users/me', auth, async (req, res) => {
     }
 })
 
+//#region avatar
 const upload = multer({
     limits: {
         // Number in bytes. below is 1MB
@@ -107,7 +109,9 @@ const upload = multer({
 })
 
 router.post('/users/me/avatar', auth, upload.single('avatar'), async (req, res) => {
-    req.user.avatar = req.file.buffer
+    // Ensure smaller image and always png
+    const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer()
+    req.user.avatar = buffer
     await req.user.save()
     res.send()
 }, (error, req, res, next) => {
@@ -130,12 +134,13 @@ router.get('/users/:id/avatar', async (req, res) => {
         if (!user || !user.avatar) {
             throw new Error()
         }
-        // set creates key-value pair
-        res.set('Content-Type', 'image/jpg')
+        // set creates key-value pair. Upload method ensured image saved is png format
+        res.set('Content-Type', 'image/png')
         res.send(user.avatar)
     } catch (e) {
         res.status(404).send()
     }
 })
+//#endregion avatar
 
 module.exports = router
