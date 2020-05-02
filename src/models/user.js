@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const Task = require('./task')
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -49,6 +50,7 @@ const userSchema = new mongoose.Schema({
     }]
 })
 
+//#region Middleware
 // setup virtual property to reference tasks for user
 userSchema.virtual('tasks', {
     ref: 'Task',
@@ -56,7 +58,6 @@ userSchema.virtual('tasks', {
     foreignField: 'owner'
 })
 
-//#region Middleware
 // methods on instance and individul user
 userSchema.methods.toJSON = function() {
     const user = this;
@@ -107,6 +108,13 @@ userSchema.pre('save', async function(next) {
         user.password = await bcrypt.hash(user.password, 8)
     }
 
+    next()
+})
+
+// Delete cascade - delete use tasks when user is removed
+userSchema.pre('remove', async function(next) {
+    const user = this
+    await Task.deleteMany({ owner: user._id })
     next()
 })
 //#endregion
