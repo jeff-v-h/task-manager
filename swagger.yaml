@@ -1,0 +1,120 @@
+swagger: "2.0"
+info:
+    title: Task Manager API
+    description: Manage your tasks.
+    version: 1.0.0
+# host: jeffvh-task-manager.herokuapp.com
+host: localhost:3000
+basePath: /
+schemes:
+    - http
+paths:
+    /users:
+        post:
+            summary: Create a new user.
+            produces:
+                - application/json
+            responses:
+                201:
+                    description: OK
+                400:
+                    description: Bad request
+    /users/login:
+        post:
+            summary: Login with credentials.
+            produces:
+                - application/json
+            responses:
+                200:
+                    description: OK
+                400:
+                    description: Bad request
+    /users/logout:
+        post:
+            summary: Logout of application from current browser.
+            description: Need to be authenticated.
+            produces:
+                - application/json
+            responses:
+                200:
+                    description: OK
+                500:
+                    description: Server error
+    /users/logoutAll:
+        post:
+            summary: Logout of application from all locations.
+            description: Need to be authenticated.
+            produces:
+                - application/json
+            responses:
+                200:
+                    description: OK
+                500:
+                    description: Server error
+    /users/me:
+        get:
+            summary: Returns informaiton for logged in user.
+            description: Need to be authenticated.
+            produces:
+                - application/json
+            responses:
+                200:
+                    description: OK
+        patch:
+            summary: Update logged in user's details.
+            description: Need to be authenticated.
+            produces:
+                - application/json
+            responses:
+                200:
+                    description: OK
+                500:
+                    description: Server error
+        delete:
+            summary: Update logged in user's details.
+            description: Need to be authenticated.
+            produces:
+                - application/json
+            responses:
+                200:
+                    description: OK
+                500:
+                    description: Server error
+    /users/me/avatar:
+        post:
+            summary: Upload an avatar for own account.
+            description: Need to be authenticated.
+            produces:
+                - application/json
+            responses:
+                200:
+                    description: OK
+                400:
+                    description: Bad request
+        delete:
+            summary: Remove avatar for authenticated account.
+            description: Need to be authenticated.
+            produces:
+                - application/json
+            responses:
+                200:
+                    description: OK
+                500:
+                    description: Server error
+    /users/{id}/avatar:
+        get:
+            summary: Get avatar for user with specified ID.
+            parameters:
+                - in: path
+                  name: userId
+                  required: true
+                  type: integer
+                  minimum: 1
+                  description: Parameter description in Markdown.
+            produces:
+                - application/json
+            responses:
+                200:
+                    description: OK
+                404:
+                    description: User with specified ID was not found
