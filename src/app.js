@@ -14,7 +14,7 @@ const app = express()
 // })
 
 app.use(express.json())
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(userRouter)
 app.use(taskRouter)
 
