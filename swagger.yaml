@@ -16,12 +16,13 @@ paths:
                 - application/json
             responses:
                 201:
-                    description: OK
+                    description: Created
                 400:
                     description: Bad request
     /users/login:
         post:
             summary: Login with credentials.
+            description: Returns a Bearer token.
             produces:
                 - application/json
             responses:
@@ -106,11 +107,11 @@ paths:
             summary: Get avatar for user with specified ID.
             parameters:
                 - in: path
-                  name: userId
+                  name: id
                   required: true
                   type: integer
                   minimum: 1
-                  description: Parameter description in Markdown.
+                  description: The id of the user.
             produces:
                 - application/json
             responses:
@@ -118,3 +119,98 @@ paths:
                     description: OK
                 404:
                     description: User with specified ID was not found
+    /tasks:
+        post:
+            summary: Create a new task.
+            description: authentication required
+            produces:
+                - application/json
+            responses:
+                201:
+                    description: Created
+                400:
+                    description: Bad request
+        get:
+            summary: Get a list of tasks.
+            description: authentication required
+            parameters:
+                - in: query
+                  name: completed
+                  required: false
+                  type: boolean
+                  description: If specified, will search for completed or non-completed tasks. Leave blank to search for all.
+                - in: query
+                  name: limit
+                  required: false
+                  type: integer
+                  description: max number of tasks to get.
+                - in: query
+                  name: skip
+                  required: false
+                  type: integer
+                  description: number of tasks to skip.
+                - in: query
+                  name: sortBy
+                  required: false
+                  type: string
+                  description: in format <property>:<sort method>. Example => sortBy=createdAt:desc
+            produces:
+                - application/json
+            responses:
+                200:
+                    description: Ok
+                500:
+                    description: Error gettings tasks
+    /tasks/{id}:
+        get:
+            summary: Get a task.
+            description: authentication required
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  type: integer
+                  description: id of the task to obtain.
+            produces:
+                - application/json
+            responses:
+                200:
+                    description: Ok
+                500:
+                    description: Error getting task
+        patch:
+            summary: update a task
+            description: authentication required
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  type: integer
+                  description: id of the task to alter.
+            produces:
+                - application/json
+            responses:
+                200:
+                    description: Ok
+                404:
+                    description: Task not found
+                500:
+                    description: Error with updating task
+        delete:
+            summary: delete a task
+            description: authentication required
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  type: integer
+                  description: id of the task to delete.
+            produces:
+                - application/json
+            responses:
+                200:
+                    description: Ok
+                404:
+                    description: Task not found
+                500:
+                    description: Error with updating task
