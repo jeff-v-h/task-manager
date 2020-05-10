@@ -22,56 +22,56 @@ const tailLayout = {
 };
 
 class Login extends React.Component {
-  onFinish = values => {
-    console.log('Success:', values);
-  };
+    onSubmit = values => {
+        this.props.login(values.username, values.password)
+    };
 
-  render() {
-    return (
-        <div className={style.centerContainer}>
-            <Form
-                {...layout}
-                name="basic"
-                initialValues={{remember: true}}
-                onFinish={this.onFinish}
-            >
-                <Form.Item
-                    label="Username"
-                    name="username"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please input your username!',
-                        },
-                    ]}
+    render() {
+        return (
+            <div className={style.centerContainer}>
+                <Form
+                    {...layout}
+                    name="basic"
+                    initialValues={{remember: true}}
+                    onFinish={this.onSubmit}
                 >
-                    <Input />
-                </Form.Item>
+                    <Form.Item
+                        label="Username"
+                        name="username"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input your username!',
+                            },
+                        ]}
+                    >
+                        <Input />
+                    </Form.Item>
 
-                <Form.Item
-                    label="Password"
-                    name="password"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please input your password!',
-                        },
-                    ]}
-                >
-                    <Input.Password />
-                </Form.Item>
+                    <Form.Item
+                        label="Password"
+                        name="password"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input your password!',
+                            },
+                        ]}
+                    >
+                        <Input.Password />
+                    </Form.Item>
 
-                <Form.Item {...tailLayout} name="remember" valuePropName="checked">
-                    <Checkbox>Remember me</Checkbox>
-                </Form.Item>
+                    <Form.Item {...tailLayout} name="remember" valuePropName="checked">
+                        <Checkbox>Remember me</Checkbox>
+                    </Form.Item>
 
-                <Form.Item {...tailLayout}>
-                    <Button type="primary" htmlType="submit">Submit</Button>
-                </Form.Item>
-            </Form>
-        </div>
-    );
-  }
+                    <Form.Item {...tailLayout}>
+                        <Button type="primary" htmlType="submit">Submit</Button>
+                    </Form.Item>
+                </Form>
+            </div>
+        );
+    }
 }
 
 export default compose(
