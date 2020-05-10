@@ -30,7 +30,7 @@ module.exports = function(env) {
 
     return {
         entry: {
-            app: './src/index.js',
+            app: './src/index.jsx',
         },
         output : {
             path : path.resolve(__dirname, 'dist'),
@@ -55,7 +55,6 @@ module.exports = function(env) {
                 },
                 {
                     test: /\.scss$/,
-                    include: ["src"],
                     use: [
                         MiniCssExtractPlugin.loader,
                         {
@@ -83,8 +82,8 @@ module.exports = function(env) {
                             loader: "less-loader",
                             options: {
                                 modifyVars: {
-                                    "primary-color": "#0F0",
-                                    "link-color": "#5FA"
+                                    "primary-color": "#05EC7A",
+                                    "link-color": "#05EC7A"
                                 },
                                 javascriptEnabled: true,
                             },
@@ -102,7 +101,7 @@ module.exports = function(env) {
         plugins : [
             new CleanWebpackPlugin(),
             new HtmlWebPackPlugin({
-                template : 'src/index.html',
+                template : './public/index.html',
                 favicon: './public/images/favicon-16x16.png'
             }),
             new CaseSensitivePathsPlugin(),

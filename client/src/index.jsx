@@ -5,7 +5,7 @@ import { ConnectedRouter } from "connected-react-router";
 import { createBrowserHistory } from "history";
 import configureStore from "./store/configureStore";
 import "antd/dist/antd.less";
-import App from "./App";
+import App from "./components/App";
 
 // Create browser history to use in the Redux store
 const history = createBrowserHistory();

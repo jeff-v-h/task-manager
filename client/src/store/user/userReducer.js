@@ -26,4 +26,4 @@ function userReducer(state = unloadedState, action) {
     }
 }
 
-export default nbaReducer;
+export default userReducer;
