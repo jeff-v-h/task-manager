@@ -82,8 +82,8 @@ module.exports = function(env) {
                             loader: "less-loader",
                             options: {
                                 modifyVars: {
-                                    "primary-color": "#05EC7A",
-                                    "link-color": "#05EC7A"
+                                    "primary-color": "#05E074",
+                                    "link-color": "#05E074"
                                 },
                                 javascriptEnabled: true,
                             },

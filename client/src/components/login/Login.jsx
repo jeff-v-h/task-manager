@@ -66,7 +66,9 @@ class Login extends React.Component {
                     </Form.Item>
 
                     <Form.Item {...tailLayout}>
-                        <Button type="primary" htmlType="submit">Submit</Button>
+                        <div className={style.buttonContainer}>
+                            <Button type="primary" htmlType="submit">Login</Button>
+                        </div>
                     </Form.Item>
                 </Form>
             </div>
