@@ -1,11 +1,12 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { withRouter, Redirect } from "react-router-dom";
 import { compose } from "redux";
 import { actionCreators } from "../../store/user/userActions";
 import { Form, Input, Button, Checkbox } from 'antd';
 import style from "./login.scss";
-
+import cookiesService from '../../services/cookieService';
+ 
 const layout = {
     labelCol: {
         span: 8,
@@ -27,6 +28,10 @@ class Login extends React.Component {
     };
 
     render() {
+        if (this.props.user.isToken || cookiesService.getUserToken()) {
+            return <Redirect to='/' />
+        }
+
         return (
             <div className={style.centerContainer}>
                 <Form
@@ -79,7 +84,7 @@ class Login extends React.Component {
 export default compose(
   withRouter,
   connect(
-    state => state.user,
+    state => ({ user: state.user }),
     actionCreators
   )
 )(Login);

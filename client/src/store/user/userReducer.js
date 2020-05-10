@@ -5,7 +5,7 @@ const unloadedState = {
   name: "",
   email: "",
   age: 0,
-  token: ""
+  isToken: false
 };
 
 function userReducer(state = unloadedState, action) {
@@ -17,8 +17,7 @@ function userReducer(state = unloadedState, action) {
         case C.LOGIN_USER_REQUEST:
             return { ...state, isFetching: true }
         case C.LOGIN_USER_SUCCESS:
-            const { token, user } = action.payload;
-            return { isFetching: false, token, ...user }
+            return { isFetching: false, ...action.payload.user, isToken: true }
         case C.LOGIN_USER_FAILURE:
             return { ...state, isFetching: false };
 
