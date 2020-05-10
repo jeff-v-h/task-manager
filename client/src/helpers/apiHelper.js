@@ -20,9 +20,9 @@ export const post = (url, data, token = null, showDefaultErrorMsg = true) => {
     return axios.post(url, data, config).catch(e => parseError(e, showDefaultErrorMsg));
 };
 
-export const put = (url, data, token = null, showDefaultErrorMsg = true) => {
+export const update = (url, data, token = null, showDefaultErrorMsg = true) => {
     const config = getConfig(token);
-    return axios.put(url, data, config).catch(e => parseError(e, showDefaultErrorMsg));
+    return axios.patch(url, data, config).catch(e => parseError(e, showDefaultErrorMsg));
 };
 
 export const deleteRequest = (url, data, token = null, showDefaultErrorMsg = true) => {
