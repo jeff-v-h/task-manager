@@ -4,6 +4,7 @@ import { withRouter } from "react-router-dom";
 import { compose } from "redux";
 import { actionCreators } from "../../store/user/userActions";
 import { Form, Input, Button, Checkbox } from 'antd';
+import style from "./login.scss";
 
 const layout = {
     labelCol: {
@@ -27,7 +28,7 @@ class Login extends React.Component {
 
   render() {
     return (
-        <div className="login-container">
+        <div className={style.centerContainer}>
             <Form
                 {...layout}
                 name="basic"
