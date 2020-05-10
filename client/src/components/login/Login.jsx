@@ -1,7 +1,6 @@
-import * as React from "react";
+import React from "react";
 import { connect } from "react-redux";
-import { withRouter, Redirect } from "react-router-dom";
-import { compose } from "redux";
+import { Redirect } from "react-router-dom";
 import { actionCreators } from "../../store/user/userActions";
 import { Form, Input, Button, Checkbox } from 'antd';
 import style from "./login.scss";
@@ -81,10 +80,7 @@ class Login extends React.Component {
     }
 }
 
-export default compose(
-  withRouter,
-  connect(
+export default connect(
     state => ({ user: state.user }),
     actionCreators
-  )
 )(Login);
