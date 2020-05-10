@@ -1,10 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { withRouter } from "react-router-dom";
+import { compose } from "redux";
 import { actionCreators } from "../../store/user/userActions";
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button, Checkbox, message } from 'antd';
 import style from "./login.scss";
-import cookiesService from '../../services/cookieService';
  
 const layout = {
     labelCol: {
@@ -22,15 +22,17 @@ const tailLayout = {
 };
 
 class Login extends React.Component {
-    onSubmit = values => {
-        this.props.login(values.username, values.password)
+    onSubmit = async values => {
+        const { login, history } = this.props;
+        try {
+            await login(values.username, values.password)
+            history.push('/')
+        } catch (e) {
+            message.error('Login unsuccessful')
+        }
     };
 
     render() {
-        if (this.props.user.isToken || cookiesService.getUserToken()) {
-            return <Redirect to='/' />
-        }
-
         return (
             <div className={style.centerContainer}>
                 <Form
@@ -80,7 +82,10 @@ class Login extends React.Component {
     }
 }
 
-export default connect(
-    state => ({ user: state.user }),
-    actionCreators
+export default compose(
+    withRouter,
+    connect(
+      state => ({ user: state.user }),
+      actionCreators
+    )
 )(Login);

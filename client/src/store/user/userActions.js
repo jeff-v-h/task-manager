@@ -19,9 +19,24 @@ export const actionCreators = {
                     type: C.LOGIN_USER_SUCCESS,
                     payload: user
                 });
+                return;
             } catch (e) {
                 dispatch({ type: C.LOGIN_USER_FAILURE });
+                return Promise.reject(e);
             }
         }
     },
+    logout: () => async (dispatch) => {
+        dispatch({ type: C.LOGOUT_USER_REQUEST });
+    
+            try {
+                const token = cookieService.getUserToken()
+                await userService.logout(token);
+                cookieService.removeUserToken()
+
+                dispatch({ type: C.LOGOUT_USER_SUCCESS });
+            } catch (e) {
+                dispatch({ type: C.LOGOUT_USER_FAILURE });
+            }
+    }
 };

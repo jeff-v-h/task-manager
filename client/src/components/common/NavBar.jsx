@@ -10,20 +10,22 @@ import style from "./navbar.scss";
 const Item = Menu.Item;
 
 class NavBar extends React.Component {
-  state = {
-    current: "tasks",
-  };
+    state = {
+        current: "tasks",
+    };
 
-  handleClickAppMain = () => this.props.history.push('/')
+    handleClickAppMain = () => this.props.history.push('/')
 
-  handleClick = (e) => this.setState({ current: e.key });
+    handleClick = (e) => this.setState({ current: e.key });
 
-  logout = () => {
-    cookiesService.removeUserToken();
-    this.props.history.push('/login')
-  }
+    logout = () => {
+        const { history, logout } = this.props;
+        logout();
+        history.push('/login')
+    }
 
-  render() {
+
+    render() {
         const { user } = this.props;
         const isAuthenticated = user.isToken || cookiesService.getUserToken()
         return (
@@ -52,7 +54,7 @@ class NavBar extends React.Component {
                 </Menu>
             </div>
         );
-  }
+    }
 }
 
 export default compose(

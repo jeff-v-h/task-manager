@@ -10,38 +10,42 @@ const AxiosConfig = {
     // timeout: 30000
 };
 
-export const get = (url, showDefaultErrorMsg = true) => {
-    return axios.get(url, AxiosConfig).catch(e => {
-        if (showDefaultErrorMsg) {
-            const msg = defaultErrorMessage(e);
-            return Promise.reject(msg);
-        }
-        return Promise.reject(e);
-    });
+export const get = (url, token = null, showDefaultErrorMsg = true) => {
+    const config = getConfig(null, token);
+    return axios.get(url, config).catch(e => parseError(e, showDefaultErrorMsg));
 };
 
-export const post = (url, payload, showDefaultErrorMsg = true) => {
-    return axios.post(url, payload, AxiosConfig).catch((e) => {
-        if (showDefaultErrorMsg) {
-            const msg = defaultErrorMessage(e);
-            return Promise.reject(msg);
-        }
-        return Promise.reject(e);
-    });
+export const post = (url, data, token = null, showDefaultErrorMsg = true) => {
+    const config = getConfig(token);
+    return axios.post(url, data, config).catch(e => parseError(e, showDefaultErrorMsg));
 };
 
-export const put = (url, payload, showDefaultErrorMsg = true) => {
-    return axios.put(url, payload, AxiosConfig).catch((e) => {
-        if (showDefaultErrorMsg) {
-            const msg = defaultErrorMessage(e);
-            return Promise.reject(msg);
-        }
-        return Promise.reject(e);
-    });
+export const put = (url, data, token = null, showDefaultErrorMsg = true) => {
+    const config = getConfig(token);
+    return axios.put(url, data, config).catch(e => parseError(e, showDefaultErrorMsg));
 };
 
+export const deleteRequest = (url, data, token = null, showDefaultErrorMsg = true) => {
+    const config = getConfig(token);
+    return axios.delete(url, data, config).catch(e => parseError(e, showDefaultErrorMsg));
+};
 
-export const defaultErrorMessage = (error) => {
+const getConfig = (token) => {
+    const config = { ...AxiosConfig }
+    if (token)
+        config.headers.Authorization = `Bearer ${token}`;
+    return config;
+}
+
+const parseError = (e, showDefaultErrorMsg) => {
+    if (showDefaultErrorMsg) {
+        const msg = defaultErrorMessage(e);
+        return Promise.reject(msg);
+    }
+    return Promise.reject(e);
+}
+
+const defaultErrorMessage = (error) => {
     let errorMsg = "Server error";
     if (error.code === "ECONNABORTED") {
         errorMsg = "Request timeout";

@@ -14,6 +14,15 @@ const userService = {
             message.error(e);
             return Promise.reject(e);
         }
+    },
+    logout: async (token) => {
+        try {
+            const url = `${apiUrl}/users/logout`;
+            await post(url, null, token);
+            return;
+        } catch (e) {
+            return Promise.reject(e);
+        }
     }
 }
 
