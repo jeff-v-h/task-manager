@@ -1,6 +1,7 @@
 const express = require('express')
 require('./db/mongoose')
 const cors = require('cors')
+const keys = require('./helpers/keys')
 const userRouter = require('./routers/user')
 const taskRouter = require('./routers/task')
 const swaggerUi = require('swagger-ui-express');
@@ -14,8 +15,15 @@ const app = express()
 //     res.send(503).send("Site is currently down. Check back soon!")
 // })
 
-var corsOptions = {
-    origin: 'http://localhost:3000',
+const whitelist = keys.ALLOWED_ORIGINS.split(";")
+const corsOptions = {
+    origin: function (origin, callback) {
+        if (whitelist.indexOf(origin) !== -1) {
+            callback(null, true)
+        } else {
+            callback(new Error('Not allowed by CORS'))
+        }
+    },
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
