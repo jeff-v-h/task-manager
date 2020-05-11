@@ -24,34 +24,36 @@ class NavBar extends React.Component {
         history.push('/login')
     }
 
-
     render() {
         const { user } = this.props;
         const isAuthenticated = user.isToken || cookiesService.getUserToken()
         return (
             <div className={style.navbar}>
-                <div className={style.navAppName} onClick={this.handleClickAppMain}>Task Manager</div>
-                <Menu
-                    onClick={this.handleClick}
-                    selectedKeys={[this.state.current]}
-                    mode="horizontal"
-                    className={style.navMenu}
-                >
-                    {isAuthenticated && (
-                        <Item key="tasks">
-                            <Link to="/tasks">Tasks</Link>
-                        </Item>
-                    )}
-                    {isAuthenticated ? (
-                        <Item key="logout" className={style.right} onClick={this.logout}>
-                            Logout
-                        </Item>
-                    ) : (
-                        <Item key="login" className={style.right}>
-                            <Link to="/login">Login</Link>
-                        </Item>
-                    )}
-                </Menu>
+                <div className={style.innerNavbar}>
+                    <div className={style.navAppName} onClick={this.handleClickAppMain}>Task Manager</div>
+                    <Menu
+                        onClick={this.handleClick}
+                        selectedKeys={[this.state.current]}
+                        mode="horizontal"
+                        className={style.navMenu}
+                        style={{ borderBottom: 'none' }}
+                    >
+                        {isAuthenticated && (
+                            <Item key="tasks">
+                                <Link to="/tasks">Tasks</Link>
+                            </Item>
+                        )}
+                        {isAuthenticated ? (
+                            <Item key="logout" className={style.right} onClick={this.logout}>
+                                Logout
+                            </Item>
+                        ) : (
+                            <Item key="login" className={style.right}>
+                                <Link to="/login">Login</Link>
+                            </Item>
+                        )}
+                    </Menu>
+                </div>
             </div>
         );
     }

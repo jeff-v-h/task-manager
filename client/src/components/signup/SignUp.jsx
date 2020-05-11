@@ -8,10 +8,10 @@ import style from "./signup.scss";
  
 const layout = {
     labelCol: {
-        span: 8,
+        span: 10,
     },
     wrapperCol: {
-        span: 16,
+        span: 14,
     },
 };
 const tailLayout = {

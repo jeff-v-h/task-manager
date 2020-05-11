@@ -1,10 +1,16 @@
 .navbar {
     width: 100%;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.innerNavbar {
+    width: 100%;
     display: flex;
+    max-width: 900px;
+    margin: 0 auto;
 }
 
 .navAppName {
-    border-bottom: 1px solid #f0f0f0;
     display: flex;
     align-items: center;
     padding: 0 1em;
