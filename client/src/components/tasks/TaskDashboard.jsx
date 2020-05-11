@@ -2,7 +2,6 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { compose } from "redux";
-import * as userActions from "../../store/user/userActions";
 import * as taskActions from "../../store/tasks/taskActions";
 import TaskRow from './TaskRow';
 import style from "./tasks.scss";
@@ -19,6 +18,7 @@ class TaskDashboard extends React.Component {
                     {this.props.tasks.list.map(task => {
                         return <TaskRow key={task._id} {...task} />
                     })}
+                    <TaskRow isNew />
                 </div>
             </div>
         );

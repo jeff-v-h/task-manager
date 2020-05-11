@@ -1,17 +1,21 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
-import { compose } from "redux";
-import * as userActions from "../../store/user/userActions";
-import { Form, Input, Button, Checkbox } from 'antd';
-import { CheckOutlined, MinusOutlined } from '@ant-design/icons';
+import * as taskActions from "../../store/tasks/taskActions";
+import { Input, Button } from 'antd';
+import { CheckOutlined, MinusOutlined, PlusOutlined } from '@ant-design/icons';
 import style from "./tasks.scss";
 import PropTypes from 'prop-types';
 
 const propTypes = {
     description: PropTypes.string,
     completed: PropTypes.bool,
-    _id: PropTypes.string
+    _id: PropTypes.string,
+    isNew: PropTypes.bool
+}
+
+const defaultProps = {
+    description: "",
+    completed: false
 }
 
 class TaskRow extends React.PureComponent {
@@ -19,30 +23,38 @@ class TaskRow extends React.PureComponent {
         super(props)
 
         this.state = {
-            value: props.description,
+            description: props.description,
             completed: props.completed
         }
     }
 
-    handleValueChange = e => this.setState({ value: e.target.value })
+    handleValueChange = e => this.setState({ description: e.target.value })
 
     handleCheckboxChange = () => this.setState(prevState => ({ completed: !prevState.completed }))
 
+    addNewTask = () => {
+        const { description, completed } = this.state;
+        this.props.createTask({ description, completed })
+    }
+
     render() {
+        const size = "small";
         return (
             <div className={style.taskRow}>
                 <div className={style.taskInput}>
-                    <Input value={this.state.value} onChange={this.handleValueChange} />
+                    <Input value={this.state.description} onChange={this.handleValueChange} />
                 </div>
                 <div className={style.completedButton}>
-                    {this.state.completed ? (
-                        <Button type="primary" icon={<CheckOutlined />} size="small" onClick={this.handleCheckboxChange} />
-                    ) : (
-                        <Button icon={<CheckOutlined />} size="small" onClick={this.handleCheckboxChange} />
-                    )}
+                    {this.state.completed 
+                        ? <Button type="primary" icon={<CheckOutlined />} size={size} onClick={this.handleCheckboxChange} />
+                        : <Button icon={<CheckOutlined />} size={size} onClick={this.handleCheckboxChange} />
+                    }
                 </div>
                 <div className={style.addRemoveButton}>
-                   <Button type="primary" danger icon={<MinusOutlined />} size="small" />
+                    {this.props.isNew
+                        ? <Button type="primary" color="blue" icon={<PlusOutlined />} onClick={this.addNewTask} size={size} />
+                        : <Button type="primary" danger icon={<MinusOutlined />} size={size} />
+                    }
                 </div>
             </div>
         );
@@ -50,8 +62,9 @@ class TaskRow extends React.PureComponent {
 }
 
 TaskRow.propTypes = propTypes;
+TaskRow.defaultProps = defaultProps;
 
 export default connect(
     state => ({ tasks: state.tasks }),
-    userActions
+    taskActions
 )(TaskRow);
