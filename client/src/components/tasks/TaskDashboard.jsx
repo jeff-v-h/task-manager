@@ -9,7 +9,6 @@ import style from "./tasks.scss";
 
 class TaskDashboard extends React.Component { 
     componentDidMount() {
-        console.log(this.props)
         this.props.getTasks()
     }
 
@@ -18,7 +17,7 @@ class TaskDashboard extends React.Component {
             <div className={style.centerContainer}>
                 <div className={style.checklist}>
                     {this.props.tasks.list.map(task => {
-                        return <TaskRow key={task._id} _id={task._id} completed={task.completed} decription={task.description} />
+                        return <TaskRow key={task._id} {...task} />
                     })}
                 </div>
             </div>

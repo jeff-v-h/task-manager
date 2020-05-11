@@ -1,3 +1,5 @@
+$padding: .5em;
+
 .centerContainer {
     display: flex;
     flex-grow: 1;
@@ -7,9 +9,31 @@
 
 .checklist {
     border: 1px solid black;
+    padding: $padding;
 }
 
 .taskRow {
     display: flex;
-    padding: .5em;
+    padding: $padding;
+}
+
+.taskInput {
+    padding-left: $padding;
+    padding-right: $padding;
+}
+
+.taskButton {
+    display: flex;
+    align-items: center;
+}
+
+.completedButton {
+    @extend .taskButton;
+    padding: 0 $padding;
+}
+
+.addRemoveButton {
+    @extend .taskButton;
+    padding-left: 4 * $padding;
+    padding-right: $padding;
 }
