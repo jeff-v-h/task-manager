@@ -53,9 +53,16 @@ class TaskRow extends React.PureComponent {
         } catch (e) {}
     }
 
-    addNewTask = () => {
+    addNewTask = async () => {
         const { description, completed } = this.state;
-        this.props.createTask({ description, completed })
+
+        try {
+            await this.props.createTask({ description, completed })
+            this.setState({
+                description: "",
+                completed: false
+            })
+        } catch (e) {}
     }
 
     saveTask = async () => {
