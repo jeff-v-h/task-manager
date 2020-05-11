@@ -18,7 +18,7 @@ const taskService = {
     get: async (id, token) => {
         try {
             const url = `${apiUrl}/tasks/${id}`;
-            const resp = await get(url, null, token);
+            const resp = await get(url, token);
             return resp.data;
         } catch (e) {
             message.error(e);
@@ -35,7 +35,7 @@ const taskService = {
                     url += `${key}=${obj[key]}`;
                 })
             }
-            const resp = await get(url, null, token);
+            const resp = await get(url, token);
             return resp.data;
         } catch (e) {
             message.error(e);

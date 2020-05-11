@@ -1,0 +1,15 @@
+.centerContainer {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+}
+
+.checklist {
+    border: 1px solid black;
+}
+
+.taskRow {
+    display: flex;
+    padding: .5em;
+}

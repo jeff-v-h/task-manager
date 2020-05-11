@@ -3,7 +3,7 @@ import { Menu } from "antd";
 import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
 import { compose } from "redux";
-import { actionCreators } from "../../store/user/userActions";
+import * as userActions from "../../store/user/userActions";
 import cookiesService from '../../services/cookieService';
 import style from "./navbar.scss";
 
@@ -61,6 +61,6 @@ export default compose(
     withRouter,
     connect(
       state => ({ user: state.user }),
-      actionCreators
+      userActions
     )
 )(NavBar);

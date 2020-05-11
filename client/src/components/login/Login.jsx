@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { compose } from "redux";
-import { actionCreators } from "../../store/user/userActions";
+import * as userActions from "../../store/user/userActions";
 import { Form, Input, Button, Checkbox, message } from 'antd';
 import style from "./login.scss";
  
@@ -82,10 +82,9 @@ class Login extends React.Component {
     }
 }
 
+const mapStateToProps = state => ({ user: state.user })
+
 export default compose(
     withRouter,
-    connect(
-      state => ({ user: state.user }),
-      actionCreators
-    )
+    connect(mapStateToProps, userActions)
 )(Login);

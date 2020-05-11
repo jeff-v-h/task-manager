@@ -11,7 +11,7 @@ const AxiosConfig = {
 };
 
 export const get = (url, token = null, showDefaultErrorMsg = true) => {
-    const config = getConfig(null, token);
+    const config = getConfig(token);
     return axios.get(url, config).catch(e => parseError(e, showDefaultErrorMsg));
 };
 
