@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import * as taskActions from "../../store/tasks/taskActions";
-import { Input, Button, message } from 'antd';
+import { Input, Button } from 'antd';
 import { CheckOutlined, MinusOutlined, PlusOutlined, EditOutlined, SaveOutlined } from '@ant-design/icons';
 import style from "./tasks.scss";
 import PropTypes from 'prop-types';
@@ -35,19 +35,22 @@ class TaskRow extends React.PureComponent {
 
     handleValueChange = e => this.setState({ description: e.target.value })
 
-    handleCheckboxChange = () => {
+    handleCheckboxChange = async () => {
         const { _id, updateTask, isNew } = this.props
 
         if (isNew)
             return this.setState(prevState => ({ completed: !prevState.completed }))
         
-        updateTask(_id, { 
-            completed: !this.state.completed,
-            description: this.state.description
-        }).then(() => this.setState(prevState => ({
-            completed: !prevState.completed,
-            isEditingDescription: false 
-        })))
+        try {
+            await updateTask(_id, { 
+                completed: !this.state.completed,
+                description: this.state.description
+            })
+             this.setState(prevState => ({
+                completed: !prevState.completed,
+                isEditingDescription: false 
+            }))
+        } catch (e) {}
     }
 
     addNewTask = () => {
@@ -55,16 +58,17 @@ class TaskRow extends React.PureComponent {
         this.props.createTask({ description, completed })
     }
 
-    saveTask = () => {
+    saveTask = async () => {
         const { _id, updateTask } = this.props
         const { description, completed } = this.state
 
-        updateTask(_id, { description, completed }).then(() => 
+        try {
+            await updateTask(_id, { description, completed })
             this.setState(prevState => ({ 
                 description,
                 isEditingDescription: !prevState.isEditingDescription
             }))
-        )
+        } catch (e) {}
     }
 
     deleteTask = () => this.props.deleteTask(this.props._id)

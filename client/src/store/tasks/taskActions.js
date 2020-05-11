@@ -10,8 +10,10 @@ export const createTask = (task) => async (dispatch) => {
         const createdTask = await taskService.create(task, token)
 
         dispatch({ type: C.CREATE_TASK_SUCCESS, payload: createdTask });
+        return;
     } catch (e) {
         dispatch({ type: C.CREATE_TASK_FAILURE });
+        return Promise.reject(e)
     }
 }
 
