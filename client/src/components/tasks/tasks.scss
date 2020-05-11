@@ -1,0 +1,45 @@
+$padding: .5em;
+
+.checkListContainer {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 3em;
+}
+
+.checklist {
+    border: 1px solid black;
+    padding: $padding;
+}
+
+.taskRow {
+    display: flex;
+    padding: $padding;
+}
+
+.taskInput {
+    padding-left: $padding;
+    padding-right: $padding;
+}
+
+.taskButton {
+    display: flex;
+    align-items: center;
+}
+
+.saveDescButton {
+    @extend .taskButton;
+    width: 30px;
+}
+
+.completedButton {
+    @extend .taskButton;
+    padding: 0 $padding;
+}
+
+.addRemoveButton {
+    @extend .taskButton;
+    padding-left: 4 * $padding;
+    padding-right: $padding;
+}
