@@ -7,6 +7,13 @@ const webpack = require('webpack');
 const dotenv = require('dotenv');
 const fs = require('fs');
 const path = require('path');
+const { pathHelper } = require("./buildHelpers");
+
+function getOutputPath(environment) {
+    return (environment === 'production')
+        ? pathHelper("../src/dist")
+        : path.resolve(__dirname, 'dist')
+}
 
 function getEnvionmentVariableKeys(env) {
     // Determin which .env file to use for environment variables
@@ -33,7 +40,7 @@ module.exports = function(env) {
             app: './src/index.jsx',
         },
         output : {
-            path : path.resolve(__dirname, 'dist'),
+            path : getOutputPath(env.ENVIRONMENT),
             filename: '[name].bundle.js'
         },
         module : {
