@@ -13,7 +13,7 @@ class TaskDashboard extends React.Component {
 
     render() {
         return (
-            <div className={style.centerContainer}>
+            <div className={style.checkListContainer}>
                 <div className={style.checklist}>
                     {this.props.tasks.list.map(task => {
                         return <TaskRow key={task._id} {...task} />
