@@ -37,6 +37,8 @@ class TaskRow extends React.PureComponent {
         this.props.createTask({ description, completed })
     }
 
+    deleteTask = () => this.props.deleteTask(this.props._id)
+
     render() {
         const size = "small";
         return (
@@ -53,7 +55,7 @@ class TaskRow extends React.PureComponent {
                 <div className={style.addRemoveButton}>
                     {this.props.isNew
                         ? <Button type="primary" color="blue" icon={<PlusOutlined />} onClick={this.addNewTask} size={size} />
-                        : <Button type="primary" danger icon={<MinusOutlined />} size={size} />
+                        : <Button type="primary" danger icon={<MinusOutlined />} onClick={this.deleteTask} size={size} />
                     }
                 </div>
             </div>

@@ -55,7 +55,7 @@ const taskService = {
     delete: async (id, token) => {
         try {
             const url = `${apiUrl}/tasks/${id}`;
-            const resp = await deleteRequest(url, null, token);
+            const resp = await deleteRequest(url, token);
             return resp.data;
         } catch (e) {
             message.error(e);

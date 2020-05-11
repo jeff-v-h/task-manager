@@ -25,9 +25,9 @@ export const update = (url, data, token = null, showDefaultErrorMsg = true) => {
     return axios.patch(url, data, config).catch(e => parseError(e, showDefaultErrorMsg));
 };
 
-export const deleteRequest = (url, data, token = null, showDefaultErrorMsg = true) => {
+export const deleteRequest = (url, token = null, showDefaultErrorMsg = true) => {
     const config = getConfig(token);
-    return axios.delete(url, data, config).catch(e => parseError(e, showDefaultErrorMsg));
+    return axios.delete(url, config).catch(e => parseError(e, showDefaultErrorMsg));
 };
 
 const getConfig = (token) => {
