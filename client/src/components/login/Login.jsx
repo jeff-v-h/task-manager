@@ -49,7 +49,7 @@ class Login extends React.Component {
                             },
                         ]}
                     >
-                        <Input />
+                        <Input placeholder="testuser@example.com" />
                     </Form.Item>
 
                     <Form.Item
@@ -62,7 +62,7 @@ class Login extends React.Component {
                             },
                         ]}
                     >
-                        <Input.Password />
+                        <Input.Password placeholder="Test123$" />
                     </Form.Item>
 
                     {/* <Form.Item {...tailLayout} name="remember" valuePropName="checked">
