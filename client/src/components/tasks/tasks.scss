@@ -27,6 +27,11 @@ $padding: .5em;
     align-items: center;
 }
 
+.saveDescButton {
+    @extend .taskButton;
+    width: 30px;
+}
+
 .completedButton {
     @extend .taskButton;
     padding: 0 $padding;

@@ -1,8 +1,8 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import * as taskActions from "../../store/tasks/taskActions";
-import { Input, Button } from 'antd';
-import { CheckOutlined, MinusOutlined, PlusOutlined } from '@ant-design/icons';
+import { Input, Button, message } from 'antd';
+import { CheckOutlined, MinusOutlined, PlusOutlined, EditOutlined, SaveOutlined } from '@ant-design/icons';
 import style from "./tasks.scss";
 import PropTypes from 'prop-types';
 
@@ -24,17 +24,47 @@ class TaskRow extends React.PureComponent {
 
         this.state = {
             description: props.description,
-            completed: props.completed
+            completed: props.completed,
+            isEditingDescription: props.isNew
         }
     }
 
+    toggleEditing = () => this.setState(prevState => ({
+        isEditingDescription: !prevState.isEditingDescription
+    }))
+
     handleValueChange = e => this.setState({ description: e.target.value })
 
-    handleCheckboxChange = () => this.setState(prevState => ({ completed: !prevState.completed }))
+    handleCheckboxChange = () => {
+        const { _id, updateTask, isNew } = this.props
+
+        if (isNew)
+            return this.setState(prevState => ({ completed: !prevState.completed }))
+        
+        updateTask(_id, { 
+            completed: !this.state.completed,
+            description: this.state.description
+        }).then(() => this.setState(prevState => ({
+            completed: !prevState.completed,
+            isEditingDescription: false 
+        })))
+    }
 
     addNewTask = () => {
         const { description, completed } = this.state;
         this.props.createTask({ description, completed })
+    }
+
+    saveTask = () => {
+        const { _id, updateTask } = this.props
+        const { description, completed } = this.state
+
+        updateTask(_id, { description, completed }).then(() => 
+            this.setState(prevState => ({ 
+                description,
+                isEditingDescription: !prevState.isEditingDescription
+            }))
+        )
     }
 
     deleteTask = () => this.props.deleteTask(this.props._id)
@@ -43,8 +73,14 @@ class TaskRow extends React.PureComponent {
         const size = "small";
         return (
             <div className={style.taskRow}>
+                <div className={style.saveDescButton}>
+                    {this.props.isNew ? null
+                        : this.state.isEditingDescription ? <Button type="primary" icon={<SaveOutlined />} onClick={this.saveTask} size={size} />
+                        : <Button icon={<EditOutlined />} onClick={this.toggleEditing} size={size} />
+                    }
+                </div>
                 <div className={style.taskInput}>
-                    <Input value={this.state.description} onChange={this.handleValueChange} />
+                    <Input disabled={!this.state.isEditingDescription} value={this.state.description} onChange={this.handleValueChange} />                    
                 </div>
                 <div className={style.completedButton}>
                     {this.state.completed 
@@ -54,7 +90,7 @@ class TaskRow extends React.PureComponent {
                 </div>
                 <div className={style.addRemoveButton}>
                     {this.props.isNew
-                        ? <Button type="primary" color="blue" icon={<PlusOutlined />} onClick={this.addNewTask} size={size} />
+                        ? <Button type="primary" icon={<PlusOutlined />} onClick={this.addNewTask} size={size} />
                         : <Button type="primary" danger icon={<MinusOutlined />} onClick={this.deleteTask} size={size} />
                     }
                 </div>

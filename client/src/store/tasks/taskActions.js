@@ -55,8 +55,10 @@ export const updateTask = (id, data) => async (dispatch) => {
         const task = await taskService.update(id, data, token)
 
         dispatch({ type: C.UPDATE_TASK_SUCCESS, payload: task });
+        return;
     } catch (e) {
         dispatch({ type: C.UPDATE_TASK_FAILURE });
+        return Promise.reject(e)
     }
 }
 
