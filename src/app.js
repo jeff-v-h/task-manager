@@ -12,7 +12,7 @@ const swaggerDocument = YAML.load('./swagger.yaml');
 
 const app = express()
 // Allow static front-end code (including routing within) to be served
-app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, 'static-site')));
 
 // app.use((req, res, next) => {
 //     res.send(503).send("Site is currently down. Check back soon!")
@@ -42,6 +42,6 @@ app.use(userRouter)
 app.use(taskRouter)
 
 // All remaining paths to be serve front-end code
-app.use('*', (req, res) => res.sendFile(path.join(__dirname, 'dist', 'index.html')));
+app.use('*', (req, res) => res.sendFile(path.join(__dirname, 'static-site', 'index.html')));
 
 module.exports = app

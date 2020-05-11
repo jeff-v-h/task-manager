@@ -11,7 +11,7 @@ const { pathHelper } = require("./buildHelpers");
 
 function getOutputPath(environment) {
     return (environment === 'production')
-        ? pathHelper("../src/dist")
+        ? pathHelper("../src/static-site")
         : path.resolve(__dirname, 'dist')
 }
 
