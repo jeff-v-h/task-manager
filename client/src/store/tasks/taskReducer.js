@@ -45,6 +45,9 @@ function taskReducer(state = unloadedState, action) {
             list = state.list.filter(t => t._id !== action.payload)
             return { ...unloadedState, list }
 
+        case C.CLEAR_TASKS:
+            return unloadedState
+
         default:
             return state;
     }

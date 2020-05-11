@@ -1,4 +1,5 @@
 import C from "./userConstants";
+import T from "../tasks/taskConstants";
 import userService from "../../services/userService";
 import cookieService from "../../services/cookieService";
 import { message } from "antd";
@@ -12,7 +13,7 @@ export const login = (email, password) => async (dispatch, getState) => {
         try {
             const response = await userService.login(email, password);
 
-            cookieService.setUserToken(user.token);
+            cookieService.setUserToken(response.token);
             delete response.token
 
             dispatch({ type: C.LOGIN_USER_SUCCESS, payload: response.user });
@@ -27,6 +28,7 @@ export const login = (email, password) => async (dispatch, getState) => {
 
 export const logout = () => async (dispatch) => {
     dispatch({ type: C.LOGOUT_USER_REQUEST });
+    dispatch({ type: T.CLEAR_TASKS })
 
         try {
             const token = cookieService.getUserToken()
