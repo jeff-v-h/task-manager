@@ -23,6 +23,23 @@ const userService = {
         } catch (e) {
             return Promise.reject(e);
         }
+    },
+    createUser: async (user) => {
+        try {
+            const url = `${apiUrl}/api/users`;
+            const resp = await post(url, user, null, false);
+            return resp.data;
+        } catch (e) {
+            let msg = "User unable to be created";
+            if (e?.response?.data?.error) {
+                msg = e.response.data.error
+            } else if (e) {
+                msg = e;
+            }
+            
+            message.error(msg);
+            return Promise.reject(msg);
+        }
     }
 }
 

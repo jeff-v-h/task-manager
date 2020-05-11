@@ -16,7 +16,13 @@ router.post('/api/users', async (req, res) => {
         const token = await user.generateAuthToken()
         res.status(201).send({ user, token });
     } catch (e) {
-        res.status(400).send({ error: e.message });
+        let msg = e.message;
+        errJson = JSON.parse(JSON.stringify(e))
+        if (errJson && errJson.code === 11000 && errJson.errmsg && errJson.errmsg.includes('email_1 dup key')) {
+            msg = "Account already exists for this email"
+        }
+            
+        res.status(400).send({ error: msg });
     }
 })
 

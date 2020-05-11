@@ -9,15 +9,12 @@ export const login = (email, password) => async (dispatch, getState) => {
         dispatch({ type: C.LOGIN_USER_REQUEST });
 
         try {
-            const user = await userService.login(email, password);
+            const response = await userService.login(email, password);
 
             cookieService.setUserToken(user.token);
-            delete user.token
+            delete response.token
 
-            dispatch({
-                type: C.LOGIN_USER_SUCCESS,
-                payload: user
-            });
+            dispatch({ type: C.LOGIN_USER_SUCCESS, payload: response.user });
             return;
         } catch (e) {
             dispatch({ type: C.LOGIN_USER_FAILURE });
@@ -38,4 +35,20 @@ export const logout = () => async (dispatch) => {
         } catch (e) {
             dispatch({ type: C.LOGOUT_USER_FAILURE });
         }
+}
+
+export const createAccount = (user) => async (dispatch) => {
+    dispatch({ type: C.CREATE_USER_REQUEST });
+
+    try {
+        const response = await userService.createUser(user);
+        cookieService.setUserToken(response.token);
+        delete response.token
+
+        dispatch({ type: C.CREATE_USER_SUCCESS, payload: response.user });
+        return;
+    } catch (e) {
+        dispatch({ type: C.CREATE_USER_FAILURE });
+        return Promise.reject(e)
+    }
 }

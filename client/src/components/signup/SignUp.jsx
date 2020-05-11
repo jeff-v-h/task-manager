@@ -1,10 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-import { withRouter, Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { compose } from "redux";
 import * as userActions from "../../store/user/userActions";
 import { Form, Input, Button, Checkbox, message } from 'antd';
-import style from "./login.scss";
+import style from "./signup.scss";
  
 const layout = {
     labelCol: {
@@ -21,15 +21,19 @@ const tailLayout = {
     },
 };
 
-class Login extends React.Component {
+class SignUp extends React.Component {
     onSubmit = async values => {
-        const { login, history } = this.props;
-        try {
-            await login(values.username, values.password)
-            history.push('/')
-        } catch (e) {
-            message.error('Login unsuccessful')
+        const { createAccount, history } = this.props;
+        if (values.password !== values.confirmpassword) {
+            return message.error("Passwords do not match");
         }
+
+        try {
+            delete values.confirmpassword
+            await createAccount({ ...values })
+            message.success('Account created successfully!')
+            history.push('/')
+        } catch (e) {} // errors displayed via service
     };
 
     render() {
@@ -42,8 +46,21 @@ class Login extends React.Component {
                     onFinish={this.onSubmit}
                 >
                     <Form.Item
-                        label="Username"
-                        name="username"
+                        label="Name"
+                        name="name"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input your name!',
+                            },
+                        ]}
+                    >
+                        <Input />
+                    </Form.Item>
+
+                    <Form.Item
+                        label="Email Username"
+                        name="email"
                         rules={[
                             {
                                 required: true,
@@ -67,15 +84,21 @@ class Login extends React.Component {
                         <Input.Password />
                     </Form.Item>
 
-                    {/* <Form.Item {...tailLayout} name="remember" valuePropName="checked">
-                        <Checkbox>Remember me</Checkbox>
-                    </Form.Item> */}
+                    <Form.Item
+                        label="Confirm Password"
+                        name="confirmpassword"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input your password again to confirm!',
+                            },
+                        ]}
+                    >
+                        <Input.Password />
+                    </Form.Item>
 
                     <div className={style.buttonContainer}>
-                        <Button type="link" style={{ color: 'blue' }}>
-                            <Link to="/signup">Sign Up</Link>
-                        </Button>
-                        <Button type="primary" htmlType="submit">Login</Button>
+                        <Button type="primary" htmlType="submit">Create</Button>
                     </div>
 
                 </Form>
@@ -89,4 +112,4 @@ const mapStateToProps = state => ({ user: state.user })
 export default compose(
     withRouter,
     connect(mapStateToProps, userActions)
-)(Login);
+)(SignUp);
