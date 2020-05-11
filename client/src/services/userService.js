@@ -1,5 +1,4 @@
 import { post } from "../helpers/apiHelper";
-import { message } from "antd";
 import { keys } from "../helpers/keys";
 
 const { apiUrl } = keys;
@@ -11,7 +10,6 @@ const userService = {
             const resp = await post(url, { email, password });
             return resp.data;
         } catch (e) {
-            message.error(e);
             return Promise.reject(e);
         }
     },
@@ -22,6 +20,22 @@ const userService = {
             return;
         } catch (e) {
             return Promise.reject(e);
+        }
+    },
+    createUser: async (user) => {
+        try {
+            const url = `${apiUrl}/api/users`;
+            const resp = await post(url, user, null, false);
+            return resp.data;
+        } catch (e) {
+            let msg = "User unable to be created";
+            if (e?.response?.data?.error) {
+                msg = e.response.data.error
+            } else if (e) {
+                msg = e;
+            }
+
+            return Promise.reject(msg);
         }
     }
 }

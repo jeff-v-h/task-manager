@@ -1,5 +1,4 @@
 import { post, get, update, deleteRequest } from "../helpers/apiHelper";
-import { message } from "antd";
 import { keys } from "../helpers/keys";
 
 const { apiUrl } = keys;
@@ -11,7 +10,6 @@ const taskService = {
             const resp = await post(url, task, token);
             return resp.data;
         } catch (e) {
-            message.error(e);
             return Promise.reject(e);
         }
     },
@@ -21,7 +19,6 @@ const taskService = {
             const resp = await get(url, token);
             return resp.data;
         } catch (e) {
-            message.error(e);
             return Promise.reject(e);
         }
     },
@@ -38,7 +35,6 @@ const taskService = {
             const resp = await get(url, token);
             return resp.data;
         } catch (e) {
-            message.error(e);
             return Promise.reject(e);
         }
     },
@@ -48,7 +44,6 @@ const taskService = {
             const resp = await update(url, data, token);
             return resp.data;
         } catch (e) {
-            message.error(e);
             return Promise.reject(e);
         }
     },
@@ -58,7 +53,6 @@ const taskService = {
             const resp = await deleteRequest(url, token);
             return resp.data;
         } catch (e) {
-            message.error(e);
             return Promise.reject(e);
         }
     }

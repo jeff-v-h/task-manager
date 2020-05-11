@@ -4,12 +4,12 @@ const keys = require('../helpers/keys')
 sgMail.setApiKey(keys.SENDGRID_API_KEY)
 
 const sendWelcomeEmail = (email, name) => {
-    sgMail.send({
-        to: email,
-        from: 'jeffvh@outlook.com',
-        subject: 'Welcome to Task Manager',
-        text: `Hi ${name}. Thank you for joining! Feel free to let us know how you get along with the app with any questons you may have or any feedback you may have.`
-    })
+    // sgMail.send({
+    //     to: email,
+    //     from: 'jeffvh@outlook.com',
+    //     subject: 'Welcome to Task Manager',
+    //     text: `Hi ${name}. Thank you for joining! Feel free to let us know how you get along with the app with any questons you may have or any feedback you may have.`
+    // })
 }
 
 const sendCancellationEmail = (email, name) => {

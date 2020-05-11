@@ -44,6 +44,10 @@ const cookieService = {
     },
 
     setUserToken: (token) => {
+        if (!token) {
+            throw new Error('Unable to complete login')
+        }
+
         const parts = token.split(".");
 
         if (parts.length !== 3) {
