@@ -7,7 +7,7 @@ const { apiUrl } = keys;
 const taskService = {
     create: async (task, token) => {
         try {
-            const url = `${apiUrl}/tasks`;
+            const url = `${apiUrl}/api/tasks`;
             const resp = await post(url, task, token);
             return resp.data;
         } catch (e) {
@@ -17,7 +17,7 @@ const taskService = {
     },
     get: async (id, token) => {
         try {
-            const url = `${apiUrl}/tasks/${id}`;
+            const url = `${apiUrl}/api/tasks/${id}`;
             const resp = await get(url, token);
             return resp.data;
         } catch (e) {
@@ -27,7 +27,7 @@ const taskService = {
     },
     getAll: async (filters, token) => {
         try {
-            const url = `${apiUrl}/tasks`;
+            const url = `${apiUrl}/api/tasks`;
             if (filters) {
                 url += "?";
                 Object.keys(filters).forEach((key, index) => {
@@ -44,7 +44,7 @@ const taskService = {
     },
     update: async (id, data, token) => {
         try {
-            const url = `${apiUrl}/tasks/${id}`;
+            const url = `${apiUrl}/api/tasks/${id}`;
             const resp = await update(url, data, token);
             return resp.data;
         } catch (e) {
@@ -54,7 +54,7 @@ const taskService = {
     },
     delete: async (id, token) => {
         try {
-            const url = `${apiUrl}/tasks/${id}`;
+            const url = `${apiUrl}/api/tasks/${id}`;
             const resp = await deleteRequest(url, token);
             return resp.data;
         } catch (e) {

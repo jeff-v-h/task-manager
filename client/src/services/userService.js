@@ -7,7 +7,7 @@ const { apiUrl } = keys;
 const userService = {
     login: async (email, password) => {
         try {
-            const url = `${apiUrl}/users/login`;
+            const url = `${apiUrl}/api/users/login`;
             const resp = await post(url, { email, password });
             return resp.data;
         } catch (e) {
@@ -17,7 +17,7 @@ const userService = {
     },
     logout: async (token) => {
         try {
-            const url = `${apiUrl}/users/logout`;
+            const url = `${apiUrl}/api/users/logout`;
             await post(url, null, token);
             return;
         } catch (e) {
