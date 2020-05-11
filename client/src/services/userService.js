@@ -1,5 +1,4 @@
 import { post } from "../helpers/apiHelper";
-import { message } from "antd";
 import { keys } from "../helpers/keys";
 
 const { apiUrl } = keys;
@@ -11,7 +10,6 @@ const userService = {
             const resp = await post(url, { email, password });
             return resp.data;
         } catch (e) {
-            message.error(e);
             return Promise.reject(e);
         }
     },
@@ -36,8 +34,7 @@ const userService = {
             } else if (e) {
                 msg = e;
             }
-            
-            message.error(msg);
+
             return Promise.reject(msg);
         }
     }

@@ -27,9 +27,7 @@ class Login extends React.Component {
         try {
             await login(values.username, values.password)
             history.push('/')
-        } catch (e) {
-            message.error('Login unsuccessful')
-        }
+        } catch (e) {} // error shown from login action
     };
 
     render() {

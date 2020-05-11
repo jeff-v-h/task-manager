@@ -1,6 +1,7 @@
 import C from "./taskConstants";
 import taskService from "../../services/taskService";
 import cookieService from "../../services/cookieService";
+import { message } from "antd";
 
 export const createTask = (task) => async (dispatch) => {
     dispatch({ type: C.CREATE_TASK_REQUEST });
@@ -13,6 +14,7 @@ export const createTask = (task) => async (dispatch) => {
         return;
     } catch (e) {
         dispatch({ type: C.CREATE_TASK_FAILURE });
+        message.error(e);
         return Promise.reject(e)
     }
 }
@@ -27,6 +29,7 @@ export const getTasks = (filters) => async (dispatch) => {
         dispatch({ type: C.GET_ALL_TASKS_SUCCESS, payload: tasks });
     } catch (e) {
         dispatch({ type: C.GET_ALL_TASKS_FAILURE });
+        message.error(e);
     }
 }
     
@@ -46,6 +49,7 @@ export const getTask = (id) => async (dispatch, getState) => {
         dispatch({ type: C.GET_TASK_SUCCESS, payload: task });
     } catch (e) {
         dispatch({ type: C.GET_TASK_FAILURE });
+        message.error(e);
     }
 }
 
@@ -60,6 +64,7 @@ export const updateTask = (id, data) => async (dispatch) => {
         return;
     } catch (e) {
         dispatch({ type: C.UPDATE_TASK_FAILURE });
+        message.error(e);
         return Promise.reject(e)
     }
 }
@@ -74,5 +79,6 @@ export const deleteTask = (id) => async (dispatch) => {
         dispatch({ type: C.DELETE_TASK_SUCCESS, payload: task._id });
     } catch (e) {
         dispatch({ type: C.DELETE_TASK_FAILURE });
+        message.error(e);
     }
 }

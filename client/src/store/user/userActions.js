@@ -1,6 +1,7 @@
 import C from "./userConstants";
 import userService from "../../services/userService";
 import cookieService from "../../services/cookieService";
+import { message } from "antd";
 
 export const login = (email, password) => async (dispatch, getState) => {
     // Only load data if it's something we don't already have (and are not already loading)
@@ -18,6 +19,7 @@ export const login = (email, password) => async (dispatch, getState) => {
             return;
         } catch (e) {
             dispatch({ type: C.LOGIN_USER_FAILURE });
+            message.error(e);
             return Promise.reject(e);
         }
     }
@@ -34,6 +36,7 @@ export const logout = () => async (dispatch) => {
             dispatch({ type: C.LOGOUT_USER_SUCCESS });
         } catch (e) {
             dispatch({ type: C.LOGOUT_USER_FAILURE });
+            message.error(e);
         }
 }
 
@@ -49,6 +52,7 @@ export const createAccount = (user) => async (dispatch) => {
         return;
     } catch (e) {
         dispatch({ type: C.CREATE_USER_FAILURE });
+        message.error(e);
         return Promise.reject(e)
     }
 }

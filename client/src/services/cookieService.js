@@ -1,6 +1,5 @@
 import Cookies from 'universal-cookie';
 import { COOKIES_TOKEN_HEADER_PAYLOAD, COOKIES_TOKEN_SIGNATURE } from '../helpers/constants';
-import { message } from 'antd';
 
 const getCookie = (tokenName) => {
     const cookies = new Cookies();
@@ -46,14 +45,12 @@ const cookieService = {
 
     setUserToken: (token) => {
         if (!token) {
-            message.error("Unable to complete login")
             throw new Error('Unable to complete login')
         }
-        
+
         const parts = token.split(".");
 
         if (parts.length !== 3) {
-            message.error("Unable to complete login")
             throw new Error('Unable to complete login')
         }
 
