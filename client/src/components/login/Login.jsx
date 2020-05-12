@@ -27,10 +27,12 @@ class Login extends React.Component {
         try {
             await login(values.username, values.password)
             history.push('/')
-        } catch (e) {} // error shown from login action
+        } catch (e) {}
     };
 
     render() {
+        const { isFetching } = this.props.user;
+
         return (
             <div className={style.centerContainer}>
                 <Form
@@ -49,7 +51,7 @@ class Login extends React.Component {
                             },
                         ]}
                     >
-                        <Input placeholder="testuser@example.com" />
+                        <Input placeholder="testuser@example.com" disabled={isFetching} />
                     </Form.Item>
 
                     <Form.Item
@@ -62,7 +64,7 @@ class Login extends React.Component {
                             },
                         ]}
                     >
-                        <Input.Password placeholder="Test123$" />
+                        <Input.Password placeholder="Test123$" disabled={isFetching} />
                     </Form.Item>
 
                     {/* <Form.Item {...tailLayout} name="remember" valuePropName="checked">
@@ -73,7 +75,7 @@ class Login extends React.Component {
                         <Button type="link" style={{ color: 'blue' }}>
                             <Link to="/signup">Sign Up</Link>
                         </Button>
-                        <Button type="primary" htmlType="submit">Login</Button>
+                        <Button type="primary" htmlType="submit" disabled={isFetching}>Login</Button>
                     </div>
 
                 </Form>
