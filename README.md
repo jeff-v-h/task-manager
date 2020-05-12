@@ -46,8 +46,9 @@ Optional: For emails to be sent, an API key needs to be obtained from [SendGrid]
 
 Heroku CLI will need to be installed to use the following method:
 
-1. Ensure changes are merged to master branch
-2. `git push heroku master`
+1. Go into client directory and build frontend `npm run build` which will output static files into src/static-site.
+2. Ensure changes are merged to master branch
+3. `git push heroku master`
 
 ## Authors
 
