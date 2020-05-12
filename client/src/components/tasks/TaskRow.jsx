@@ -65,7 +65,7 @@ class TaskRow extends React.PureComponent {
         try {
             this.setState({ isEditingDescription: false })
             await this.props.createTask({ description, completed })
-            this.setState({ description: "", completed: false })
+            this.setState({ description: "", completed: false, isEditingDescription })
         } catch (e) {
             this.setState({ description, completed, isEditingDescription })
         }
