@@ -41,28 +41,31 @@ class TaskRow extends React.PureComponent {
         if (isNew)
             return this.setState(prevState => ({ completed: !prevState.completed }))
         
+        const { completed, isEditingDescription, description} = this.state;
+
         try {
-            await updateTask(_id, { 
-                completed: !this.state.completed,
-                description: this.state.description
-            })
-             this.setState(prevState => ({
+            // set state first to immediately change UI
+            this.setState(prevState => ({
                 completed: !prevState.completed,
                 isEditingDescription: false 
             }))
-        } catch (e) {}
+            await updateTask(_id, { completed: !completed, description })
+        } catch (e) {
+            // return to previous state since update request failed
+            this.setState({ completed, isEditingDescription })
+        }
     }
 
     addNewTask = async () => {
-        const { description, completed } = this.state;
+        const { description, completed, isEditingDescription } = this.state;
 
         try {
+            this.setState({ isEditingDescription: false })
             await this.props.createTask({ description, completed })
-            this.setState({
-                description: "",
-                completed: false
-            })
-        } catch (e) {}
+            this.setState({ description: "", completed: false })
+        } catch (e) {
+            this.setState({ description, completed, isEditingDescription })
+        }
     }
 
     saveTask = async () => {
