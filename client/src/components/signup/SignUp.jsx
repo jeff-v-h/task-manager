@@ -37,6 +37,7 @@ class SignUp extends React.Component {
     };
 
     render() {
+        const { isFetching } = this.props.user;
         return (
             <div className={style.centerContainer}>
                 <Form
@@ -55,7 +56,7 @@ class SignUp extends React.Component {
                             },
                         ]}
                     >
-                        <Input />
+                        <Input disabled={isFetching} />
                     </Form.Item>
 
                     <Form.Item
@@ -68,7 +69,7 @@ class SignUp extends React.Component {
                             },
                         ]}
                     >
-                        <Input />
+                        <Input disabled={isFetching} />
                     </Form.Item>
 
                     <Form.Item
@@ -81,7 +82,7 @@ class SignUp extends React.Component {
                             },
                         ]}
                     >
-                        <Input.Password />
+                        <Input.Password disabled={isFetching} />
                     </Form.Item>
 
                     <Form.Item
@@ -94,11 +95,11 @@ class SignUp extends React.Component {
                             },
                         ]}
                     >
-                        <Input.Password />
+                        <Input.Password disabled={isFetching} />
                     </Form.Item>
 
                     <div className={style.buttonContainer}>
-                        <Button type="primary" htmlType="submit">Create</Button>
+                        <Button type="primary" htmlType="submit" disabled={isFetching}>Create</Button>
                     </div>
 
                 </Form>
