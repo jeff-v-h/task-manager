@@ -1,8 +1,8 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import * as taskActions from "../../store/tasks/taskActions";
-import { Input, Button } from 'antd';
-import { CheckOutlined, MinusOutlined, PlusOutlined, EditOutlined, SaveOutlined } from '@ant-design/icons';
+import { Input, Button, Spin } from 'antd';
+import { CheckOutlined, MinusOutlined, PlusOutlined, EditOutlined, SaveOutlined, LoadingOutlined } from '@ant-design/icons';
 import style from "./tasks.scss";
 import PropTypes from 'prop-types';
 
@@ -18,6 +18,8 @@ const defaultProps = {
     completed: false
 }
 
+const spinIcon = <LoadingOutlined style={{ fontSize: 18 }} spin />
+
 class TaskRow extends React.PureComponent {
     constructor(props) {
         super(props)
@@ -25,7 +27,8 @@ class TaskRow extends React.PureComponent {
         this.state = {
             description: props.description,
             completed: props.completed,
-            isEditingDescription: props.isNew
+            isEditingDescription: props.isNew,
+            showLoading: false
         }
     }
 
@@ -70,18 +73,27 @@ class TaskRow extends React.PureComponent {
 
     saveTask = async () => {
         const { _id, updateTask } = this.props
-        const { description, completed } = this.state
+        const { description, isEditingDescription } = this.state
 
         try {
-            await updateTask(_id, { description, completed })
             this.setState(prevState => ({ 
                 description,
                 isEditingDescription: !prevState.isEditingDescription
-            }))
-        } catch (e) {}
+            })) 
+            await updateTask(_id, { description })
+        } catch (e) {
+            this.setState({ description, isEditingDescription })
+        }
     }
 
-    deleteTask = () => this.props.deleteTask(this.props._id)
+    deleteTask = async () => {
+        try {
+            this.setState({ showLoading: true })
+            await this.props.deleteTask(this.props._id)
+        } catch (e) {
+            this.setState({ showLoading: false })
+        }
+    } 
 
     render() {
         const size = "small";
@@ -101,6 +113,9 @@ class TaskRow extends React.PureComponent {
                         ? <Button type="primary" icon={<CheckOutlined />} size={size} onClick={this.handleCheckboxChange} />
                         : <Button icon={<CheckOutlined />} size={size} onClick={this.handleCheckboxChange} />
                     }
+                </div>
+                <div className={style.spinner}>
+                    {this.state.showLoading && <Spin indicator={spinIcon} /> }
                 </div>
                 <div className={style.addRemoveButton}>
                     {this.props.isNew

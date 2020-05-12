@@ -35,11 +35,17 @@ $padding: .5em;
 
 .completedButton {
     @extend .taskButton;
-    padding: 0 $padding;
+    padding-right: $padding;
 }
 
 .addRemoveButton {
     @extend .taskButton;
-    padding-left: 4 * $padding;
-    padding-right: $padding;
+    padding-left: $padding;
+}
+
+.spinner {
+    padding: 0 2*$padding;
+    min-width: 50px;
+    display: flex;
+    align-items: center;
 }
