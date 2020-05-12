@@ -44,7 +44,7 @@ $padding: .5em;
 }
 
 .spinner {
-    padding: 0 2*$padding;
+    padding: 0 $padding;
     min-width: 50px;
     display: flex;
     align-items: center;

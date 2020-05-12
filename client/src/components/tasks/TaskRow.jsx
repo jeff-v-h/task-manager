@@ -88,7 +88,7 @@ class TaskRow extends React.PureComponent {
 
     deleteTask = async () => {
         try {
-            this.setState({ showLoading: true })
+            this.setState({ showLoading: true, isEditingDescription: false })
             await this.props.deleteTask(this.props._id)
         } catch (e) {
             this.setState({ showLoading: false })
@@ -97,25 +97,27 @@ class TaskRow extends React.PureComponent {
 
     render() {
         const size = "small";
+        const { isEditingDescription, showLoading, description, completed } = this.state;
+
         return (
             <div className={style.taskRow}>
                 <div className={style.saveDescButton}>
                     {this.props.isNew ? null
-                        : this.state.isEditingDescription ? <Button type="primary" icon={<SaveOutlined />} onClick={this.saveTask} size={size} />
-                        : <Button icon={<EditOutlined />} onClick={this.toggleEditing} size={size} />
+                        : !isEditingDescription || showLoading ? <Button icon={<EditOutlined />} onClick={this.toggleEditing} size={size} />
+                        : <Button type="primary" icon={<SaveOutlined />} onClick={this.saveTask} size={size} />
                     }
                 </div>
                 <div className={style.taskInput}>
-                    <Input disabled={!this.state.isEditingDescription} value={this.state.description} onChange={this.handleValueChange} />                    
+                    <Input disabled={!isEditingDescription || showLoading} value={description} onChange={this.handleValueChange} />                    
                 </div>
                 <div className={style.completedButton}>
-                    {this.state.completed 
-                        ? <Button type="primary" icon={<CheckOutlined />} size={size} onClick={this.handleCheckboxChange} />
+                    {showLoading ? <Button disabled icon={<CheckOutlined />} size={size} />
+                        : completed ? <Button type="primary" icon={<CheckOutlined />} size={size} onClick={this.handleCheckboxChange} />
                         : <Button icon={<CheckOutlined />} size={size} onClick={this.handleCheckboxChange} />
                     }
                 </div>
                 <div className={style.spinner}>
-                    {this.state.showLoading && <Spin indicator={spinIcon} /> }
+                    {showLoading && <Spin indicator={spinIcon} /> }
                 </div>
                 <div className={style.addRemoveButton}>
                     {this.props.isNew

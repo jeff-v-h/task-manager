@@ -77,8 +77,10 @@ export const deleteTask = (id) => async (dispatch) => {
         const task = await taskService.delete(id, token)
 
         dispatch({ type: C.DELETE_TASK_SUCCESS, payload: task._id });
+        return;
     } catch (e) {
         dispatch({ type: C.DELETE_TASK_FAILURE });
         message.error(e);
+        return Promise.reject(e)
     }
 }
